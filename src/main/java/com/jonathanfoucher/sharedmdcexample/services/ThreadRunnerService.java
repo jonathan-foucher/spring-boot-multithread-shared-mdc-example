@@ -28,25 +28,24 @@ public class ThreadRunnerService {
     }
 
     public void run(@NonNull Runnable runnable) {
-        Map<String, String> contextMap = MDC.getCopyOfContextMap();
-        CompletableFuture.runAsync(() -> {
-            MDC.setContextMap(contextMap);
-            runnable.run();
-            MDC.clear();
-        }, executorService).join();
+        runWithParentThreadMdcContext(runnable).join();
     }
 
     public void run(@NonNull List<Runnable> runnables) {
-        Map<String, String> contextMap = MDC.getCopyOfContextMap();
-
         List<CompletableFuture<Void>> completableFutures = runnables.stream()
-                .map(runnable -> CompletableFuture.runAsync(() -> {
-                    MDC.setContextMap(contextMap);
-                    runnable.run();
-                    MDC.clear();
-                }, executorService))
+                .map(this::runWithParentThreadMdcContext)
                 .toList();
 
         completableFutures.forEach(CompletableFuture::join);
+    }
+
+    private CompletableFuture<Void> runWithParentThreadMdcContext(@NonNull Runnable runnable) {
+        Map<String, String> contextMap = MDC.getCopyOfContextMap();
+
+        return CompletableFuture.runAsync(() -> {
+            MDC.setContextMap(contextMap);
+            runnable.run();
+            MDC.clear();
+        }, executorService);
     }
 }
