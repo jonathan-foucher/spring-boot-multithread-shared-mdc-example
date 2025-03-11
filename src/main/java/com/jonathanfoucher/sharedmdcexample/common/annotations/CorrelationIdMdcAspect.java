@@ -14,7 +14,7 @@ import java.util.UUID;
 @Order(1)
 @Component
 @Slf4j
-public class MdcCorrelationIdAspect {
+public class CorrelationIdMdcAspect {
     private static final String CORRELATION_ID_MDC_KEY = "correlation-id";
 
     @Before("@annotation(CorrelationIdMdc)")
