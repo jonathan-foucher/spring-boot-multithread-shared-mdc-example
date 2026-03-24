@@ -1,0 +1,9 @@
+[
+  {
+    "adapter": "Java",
+    "request": "launch",
+    "label": "Launch Debugger",
+    "stopOnEntry": true,
+    "cwd": "$ZED_WORKTREE_ROOT"
+  }
+]
