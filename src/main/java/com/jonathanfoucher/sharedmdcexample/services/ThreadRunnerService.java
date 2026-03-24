@@ -2,8 +2,8 @@ package com.jonathanfoucher.sharedmdcexample.services;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.MDC;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
